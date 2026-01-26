@@ -11,6 +11,7 @@ const name = ref('')
 const password = ref('')
 const salary = ref<number | null>(null)
 const location_name = ref('')
+const image_path = ref('') // 画像パス保持用に追加
 
 // 既存データの取得
 const fetchEmployee = async () => {
@@ -20,6 +21,7 @@ const fetchEmployee = async () => {
     password.value = res.data.password
     salary.value = res.data.salary
     location_name.value = res.data.location_name
+    image_path.value = res.data.image_path // 画像パスを保存
   } catch (err) {
     alert('データ取得エラー')
   }
@@ -32,7 +34,8 @@ const updateEmployee = async () => {
       name: name.value,
       password: password.value,
       salary: salary.value,
-      location_name: location_name.value
+      location_name: location_name.value,
+      image_path: image_path.value // 画像パスをリクエストに含める
     })
     alert('更新しました')
     router.push(`/employees/${id}`)
