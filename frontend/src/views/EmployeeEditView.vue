@@ -69,6 +69,11 @@ onMounted(() => {
         <label>勤務地</label>
         <input type="text" class="form-control" v-model="location_name">
       </div>
+      <div class="mb-3">
+        <label>写真パス (例: /images/1001.png)</label>
+        <input type="text" class="form-control" v-model="image_path">
+        <div class="form-text">※public/imagesフォルダ内のファイル名を指定してください</div>
+      </div>
       <button class="btn btn-primary">保存</button>
     </form>
   </div>
