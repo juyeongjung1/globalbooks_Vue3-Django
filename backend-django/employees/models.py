@@ -8,5 +8,8 @@ class Employee(models.Model):
     location_name = models.CharField(max_length=255, null=True, blank=True)
     image_path = models.CharField(max_length=255, null=True, blank=True) # 画像用に追加
     
+    class Meta:
+        db_table = 'employees'
+
     def __str__(self):
         return self.name
