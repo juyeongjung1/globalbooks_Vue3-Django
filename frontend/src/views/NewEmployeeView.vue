@@ -60,7 +60,7 @@ const submitEmployee = async () => {
         <input type="text" class="form-control" v-model="image_path">
         <div class="form-text">※public/imagesフォルダ内のファイル名を指定してください</div>
       </div>
-      <button class="btn btn-primary">登録</button>
+      <button class="btn btn-primary mt-4">登録</button>
     </form>
   </div>
 </template>
