@@ -74,7 +74,7 @@ onMounted(() => {
         <input type="text" class="form-control" v-model="image_path">
         <div class="form-text">※public/imagesフォルダ内のファイル名を指定してください</div>
       </div>
-      <button class="btn btn-primary">保存</button>
+      <button class="btn btn-primary mt-4">保存</button>
     </form>
   </div>
 </template>
