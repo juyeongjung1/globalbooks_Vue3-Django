@@ -1,39 +1,21 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
+import HeaderMenu from './components/HeaderMenu.vue'
+import SideMenu from './components/SideMenu.vue'
+import FooterInfo from './components/FooterInfo.vue'
 </script>
 
 <template>
-  <div class="container-fluid bg-light min-vh-100 d-flex flex-column">
+  <div class="container-fluid bg-light min-vh-100 d-flex flex-column p-0">
     <!-- ヘッダーエリア -->
-    <header class="bg-dark text-white p-3 mb-4">
-      <div class="container">
-        <h1 class="h3 mb-0">人事管理システム</h1>
-      </div>
-    </header>
+    <HeaderMenu />
 
     <!-- メインレイアウト（サイドメニュー + コンテンツ） -->
     <div class="container flex-grow-1">
       <div class="row">
         <!-- サイドメニューエリア -->
         <div class="col-md-3 mb-4">
-          <div class="list-group">
-            <div class="list-group-item disabled fw-bold">メニュー</div>
-            <!-- ルーターリンクでページ切り替え -->
-            <RouterLink 
-              to="/employees" 
-              class="list-group-item list-group-item-action" 
-              active-class="active"
-            >
-              社員一覧
-            </RouterLink>
-            <RouterLink 
-              to="/employees/new" 
-              class="list-group-item list-group-item-action" 
-              active-class="active"
-            >
-              新規社員登録
-            </RouterLink>
-          </div>
+          <SideMenu />
         </div>
 
         <!-- メインコンテンツエリア -->
@@ -45,9 +27,7 @@ import { RouterLink, RouterView } from 'vue-router'
     </div>
 
     <!-- フッターエリア -->
-    <footer class="bg-secondary text-white text-center p-3 mt-auto">
-      &copy; 2025 人事管理システム
-    </footer>
+    <FooterInfo />
   </div>
 </template>
 
