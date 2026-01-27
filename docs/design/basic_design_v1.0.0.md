@@ -8,9 +8,9 @@
 
 ```mermaid
 graph LR
-    User[ユーザー] --> Frontend[Frontend (Vue 3)]
-    Frontend -- API Request (JSON) --> Backend[Backend (Django REST Framework)]
-    Backend -- Query --> DB[(Database (SQLite))]
+    User["ユーザー"] --> Frontend["Frontend (Vue 3)"]
+    Frontend -- "API Request (JSON)" --> Backend["Backend (Django REST Framework)"]
+    Backend -- Query --> DB[("Database (SQLite)")]
 ```
 
 ## 2. データベース設計
