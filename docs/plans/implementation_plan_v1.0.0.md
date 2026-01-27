@@ -1,0 +1,52 @@
+# 書籍管理システム移行 実装計画
+
+**バージョン**: v1.0.0  
+**作成日**: 2026/01/27
+
+## 1. 概要
+人事管理システムから書籍管理システムへの移行作業における実装手順詳細を定義する。
+
+## 2. ユーザーレビュー事項
+以下の文書の内容について承認が必要。
+- `docs/requirements/requirements_v1.0.0.md`（要件定義書）
+- `docs/design/basic_design_v1.0.0.md`（基本設計書）
+
+## 3. 変更内容一覧
+
+### Backend (Django)
+`backend-django/employees/` アプリケーションを `backend-django/books/` にリファクタリング、または既存を変更する。
+※ 今回は既存ファイルを修正する方針とするが、アプリ名そのものを変更するか、中身だけ変えるか基本設計に基づく。
+(設計上は `employees` -> `books` への完全移行を推奨するが、簡易移行のため `employees` アプリを再利用しつつモデル名を変えるか、新規アプリ作成かを判断する。)
+
+**方針**: 新規アプリ `books` を作成し、`employees` は削除（または無効化）する方がクリーンであるため、新規作成を行う。
+
+1. **[NEW]** `backend-django/books/` アプリ作成
+2. **[NEW]** `backend-django/books/models.py` (Bookモデル定義)
+3. **[NEW]** `backend-django/books/serializers.py`
+4. **[NEW]** `backend-django/books/views.py`
+5. **[MODIFY]** `backend-django/myproject/settings.py` (`books`アプリ追加)
+6. **[MODIFY]** `backend-django/myproject/urls.py` (ルーティング変更)
+7. **[DELETE]** `backend-django/employees/` (移行完了後)
+
+### Frontend (Vue 3)
+ディレクトリ `frontend/src/views/` 内のファイルをリネーム・修正。
+
+1. **[RENAME/MODIFY]** `EmployeeListView.vue` -> `BookListView.vue`
+2. **[RENAME/MODIFY]** `EmployeeDetailView.vue` -> `BookDetailView.vue`
+3. **[RENAME/MODIFY]** `EmployeeEditView.vue` -> `BookEditView.vue`
+4. **[RENAME/MODIFY]** `NewEmployeeView.vue` -> `NewBookView.vue`
+5. **[MODIFY]** `frontend/src/router/index.ts` (ルーティング定義変更)
+6. **[MODIFY]** `frontend/src/App.vue` (ナビゲーションメニュー等)
+
+## 4. 検証計画
+
+### 自動テスト
+- Djangoの `tests.py` にてBookモデルのCRUDテストを作成・実行する。
+
+### 手動検証
+1. **一覧表示**: 登録データが表示されること。
+2. **検索**: タイトルで検索できること。
+3. **詳細表示**: 正しいデータが表示されること。
+4. **新規登録**: 入力したデータがDBに保存され、一覧に反映されること。
+5. **編集**: 更新した内容が保存されること。
+6. **削除**: データが消え、一覧からなくなること。
