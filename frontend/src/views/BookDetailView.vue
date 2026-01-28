@@ -28,7 +28,7 @@ const getImagePath = (path: string) => {
 // 詳細取得
 const fetchDetail = async () => {
   try {
-    const res = await axios.get(`http://localhost:8000/api/books/${id}/`)
+    const res = await axios.get(`http://localhost:8001/api/books/${id}/`)
     book.value = res.data
   } catch (err) {
     alert('データ取得に失敗しました')
@@ -40,7 +40,7 @@ const deleteBook = async () => {
   if(!confirm('本当にこの書籍データを削除してもよろしいですか？')) return
 
   try {
-    await axios.delete(`http://localhost:8000/api/books/${id}/`)
+    await axios.delete(`http://localhost:8001/api/books/${id}/`)
     alert('削除しました')
     router.push('/books')
   } catch (err) {

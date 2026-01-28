@@ -30,7 +30,7 @@ const fetchBooks = async () => {
   loading.value = true
   error.value = null
   try {
-    const res = await axios.get('http://localhost:8000/api/books/', { // Port 8000 for Django
+    const res = await axios.get('http://localhost:8001/api/books/', { // Port 8001 for Django
       params: { keyword: keyword.value }
     })
     books.value = res.data

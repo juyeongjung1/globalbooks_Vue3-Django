@@ -19,7 +19,7 @@ const submitBook = async () => {
   }
 
   try {
-    await axios.post('http://localhost:8000/api/books/', {
+    await axios.post('http://localhost:8001/api/books/', {
       title: title.value,
       author: author.value,
       price: price.value,

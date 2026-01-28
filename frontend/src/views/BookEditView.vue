@@ -17,7 +17,7 @@ const image_path = ref('')
 // 既存データの取得
 const fetchBook = async () => {
   try {
-    const res = await axios.get(`http://localhost:8000/api/books/${id}/`)
+    const res = await axios.get(`http://localhost:8001/api/books/${id}/`)
     title.value = res.data.title
     author.value = res.data.author
     price.value = res.data.price
@@ -31,7 +31,7 @@ const fetchBook = async () => {
 // 更新処理
 const updateBook = async () => {
   try {
-    await axios.put(`http://localhost:8000/api/books/${id}/`, {
+    await axios.put(`http://localhost:8001/api/books/${id}/`, {
       title: title.value,
       author: author.value,
       price: price.value,
