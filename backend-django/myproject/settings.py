@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',  # 追加: REST API用
     'corsheaders',     # 追加: CORS用
-    'employees',       # 追加: 今回作成するアプリ
+    # 'employees',       # 旧人事アプリ（無効化）
+    'books',           # 新規: 書籍管理アプリ
 ]
 
 MIDDLEWARE = [

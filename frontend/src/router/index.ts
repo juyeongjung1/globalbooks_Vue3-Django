@@ -1,31 +1,35 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import EmployeeListView from '../views/EmployeeListView.vue'
-import EmployeeDetailView from '../views/EmployeeDetailView.vue'
-import NewEmployeeView from '../views/NewEmployeeView.vue'
-import EmployeeEditView from '../views/EmployeeEditView.vue'
+import BookListView from '../views/BookListView.vue'
+import BookDetailView from '../views/BookDetailView.vue'
+import NewBookView from '../views/NewBookView.vue'
+import BookEditView from '../views/BookEditView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/employees',
-      name: 'employees',
-      component: EmployeeListView
+      path: '/',
+      redirect: '/books'
     },
     {
-      path: '/employees/:id',
-      name: 'employee-detail',
-      component: EmployeeDetailView
+      path: '/books',
+      name: 'books',
+      component: BookListView
     },
     {
-      path: '/employees/new',
-      name: 'employee-new',
-      component: NewEmployeeView
+      path: '/books/new',
+      name: 'book-new',
+      component: NewBookView
     },
     {
-      path: '/employees/edit/:id',
-      name: 'employee-edit',
-      component: EmployeeEditView
+      path: '/books/edit/:id',
+      name: 'book-edit',
+      component: BookEditView
+    },
+    {
+      path: '/books/:id',
+      name: 'book-detail',
+      component: BookDetailView
     }
   ]
 })
