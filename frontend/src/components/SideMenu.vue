@@ -2,18 +2,18 @@
   <div class="list-group">
     <div class="list-group-item disabled fw-bold">メニュー</div>
     <RouterLink 
-      to="/employees" 
+      to="/books" 
       class="list-group-item list-group-item-action" 
       active-class="active"
     >
-      社員一覧
+      <i class="bi bi-journal-text me-2"></i>書籍一覧
     </RouterLink>
     <RouterLink 
-      to="/employees/new" 
+      to="/books/new" 
       class="list-group-item list-group-item-action" 
       active-class="active"
     >
-      新規社員登録
+      <i class="bi bi-journal-plus me-2"></i>書籍登録
     </RouterLink>
   </div>
 </template>

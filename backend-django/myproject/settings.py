@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',  # 追加: REST API用
     'corsheaders',     # 追加: CORS用
-    'employees',       # 追加: 今回作成するアプリ
+    'books',           # 新規: 書籍管理アプリ
 ]
 
 MIDDLEWARE = [
@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR.parent / 'backend-express' / 'db' / 'employees.db',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

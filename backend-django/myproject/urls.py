@@ -17,10 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include # include を忘れずに追加してください
 from rest_framework.routers import DefaultRouter
-from employees.views import EmployeeViewSet
+from books.views import BookViewSet
 
 router = DefaultRouter()
-router.register(r'employees', EmployeeViewSet, basename='employee') # /api/employees のURLを作成
+router.register(r'books', BookViewSet, basename='book') # /api/books のURLを作成
 
 urlpatterns = [
     path('admin/', admin.site.urls),
