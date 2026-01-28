@@ -69,7 +69,11 @@ onMounted(() => {
           <table class="table table-borderless">
             <tbody>
               <tr>
-                <th style="width: 150px;">著者</th>
+                <th style="width: 150px;">ID</th>
+                <td>{{ book.id }}</td>
+              </tr>
+              <tr>
+                <th>著者</th>
                 <td>{{ book.author }}</td>
               </tr>
               <tr>

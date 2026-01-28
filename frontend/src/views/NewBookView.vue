@@ -56,7 +56,7 @@ const submitBook = async () => {
           <input type="text" class="form-control" v-model="publisher">
         </div>
         <div class="mb-3">
-          <label class="form-label">画像パス (例: /images/1001.png)</label>
+          <label class="form-label">画像パス (例: /images/1.png)</label>
           <input type="text" class="form-control" v-model="image_path">
           <div class="form-text">※public/imagesフォルダ内のファイルパスを指定してください</div>
         </div>

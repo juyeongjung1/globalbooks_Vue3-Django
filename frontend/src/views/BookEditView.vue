@@ -56,6 +56,10 @@ onMounted(() => {
     <div class="card p-4">
       <form @submit.prevent="updateBook">
         <div class="mb-3">
+          <label class="form-label">ID</label>
+          <input type="text" class="form-control" :value="id" disabled>
+        </div>
+        <div class="mb-3">
           <label class="form-label">書籍名 <span class="text-danger">*</span></label>
           <input type="text" class="form-control" v-model="title" required>
         </div>
@@ -72,7 +76,7 @@ onMounted(() => {
           <input type="text" class="form-control" v-model="publisher">
         </div>
         <div class="mb-3">
-          <label class="form-label">画像パス (例: /images/1001.png)</label>
+          <label class="form-label">画像パス (例: /images/1.png)</label>
           <input type="text" class="form-control" v-model="image_path">
           <div class="form-text">※public/imagesフォルダ内のファイルパスを指定してください</div>
         </div>
