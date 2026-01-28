@@ -37,3 +37,8 @@ npm run dev
 ```
 
 アクセス: http://localhost:5173 (または表示されるポート)
+
+## 動作環境 (推奨)
+- **ブラウザ**: Google Chrome, Edge, Firefox, Safari (各最新版)
+- **OS**: Windows, macOS, Linux
+- **Runtime**: Python 3.10+, Node.js 16+
