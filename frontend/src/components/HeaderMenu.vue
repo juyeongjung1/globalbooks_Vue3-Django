@@ -1,7 +1,7 @@
 <template>
   <header class="bg-dark text-white p-3 mb-4">
     <div class="container">
-      <h1 class="h3 mb-0">書籍管理システム</h1>
+      <h1 class="h3 mb-0"><i class="bi bi-book-half me-2"></i>書籍管理システム</h1>
     </div>
   </header>
 </template>

@@ -54,14 +54,14 @@ onMounted(() => {
     <div class="d-flex justify-content-between mb-3">
       <div class="input-group w-50">
         <input type="text" class="form-control" v-model="keyword" placeholder="書籍名で検索">
-        <button class="btn btn-primary" @click="fetchBooks">検索</button>
+        <button class="btn btn-primary" @click="fetchBooks"><i class="bi bi-search me-1"></i>検索</button>
       </div>
-      <RouterLink to="/books/new" class="btn btn-success">新規登録</RouterLink>
+      <RouterLink to="/books/new" class="btn btn-success"><i class="bi bi-plus-lg me-1"></i>新規登録</RouterLink>
     </div>
 
     <!-- ローディング・エラー表示 -->
     <div v-if="loading">読み込み中...</div>
-    <div v-else-if="error" class="text-danger">{{ error }}</div>
+    <div v-else-if="error" class="text-danger"><i class="bi bi-exclamation-triangle me-1"></i>{{ error }}</div>
 
     <!-- 書籍一覧テーブル -->
     <table v-else class="table table-striped align-middle">
@@ -86,7 +86,7 @@ onMounted(() => {
           <td>{{ book.price.toLocaleString() }} 円</td>
           <td>
             <RouterLink :to="`/books/${book.id}`" class="btn btn-sm btn-info text-white">
-              詳細
+              <i class="bi bi-info-circle me-1"></i>詳細
             </RouterLink>
           </td>
         </tr>

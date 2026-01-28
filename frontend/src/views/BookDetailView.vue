@@ -88,9 +88,9 @@ onMounted(() => {
           </table>
 
           <div class="mt-4 d-flex gap-2">
-            <RouterLink to="/books" class="btn btn-secondary">一覧へ戻る</RouterLink>
-            <RouterLink :to="`/books/edit/${book.id}`" class="btn btn-primary">編集</RouterLink>
-            <button class="btn btn-danger" @click="deleteBook">削除</button>
+            <RouterLink to="/books" class="btn btn-secondary"><i class="bi bi-arrow-left me-1"></i>一覧へ戻る</RouterLink>
+            <RouterLink :to="`/books/edit/${book.id}`" class="btn btn-primary"><i class="bi bi-pencil-square me-1"></i>編集</RouterLink>
+            <button class="btn btn-danger" @click="deleteBook"><i class="bi bi-trash me-1"></i>削除</button>
           </div>
         </div>
       </div>

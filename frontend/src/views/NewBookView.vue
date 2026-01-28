@@ -62,8 +62,8 @@ const submitBook = async () => {
         </div>
         
         <div class="d-flex gap-2">
-          <button class="btn btn-success">登録</button>
-          <RouterLink to="/books" class="btn btn-secondary">キャンセル</RouterLink>
+          <button class="btn btn-success"><i class="bi bi-check-lg me-1"></i>登録</button>
+          <RouterLink to="/books" class="btn btn-secondary"><i class="bi bi-x-lg me-1"></i>キャンセル</RouterLink>
         </div>
       </form>
     </div>

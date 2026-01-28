@@ -78,8 +78,8 @@ onMounted(() => {
         </div>
         
         <div class="d-flex gap-2">
-          <button class="btn btn-primary">保存</button>
-          <RouterLink :to="`/books/${id}`" class="btn btn-secondary">キャンセル</RouterLink>
+          <button class="btn btn-primary"><i class="bi bi-save me-1"></i>保存</button>
+          <RouterLink :to="`/books/${id}`" class="btn btn-secondary"><i class="bi bi-x-lg me-1"></i>キャンセル</RouterLink>
         </div>
       </form>
     </div>

@@ -6,14 +6,14 @@
       class="list-group-item list-group-item-action" 
       active-class="active"
     >
-      書籍一覧
+      <i class="bi bi-journal-text me-2"></i>書籍一覧
     </RouterLink>
     <RouterLink 
       to="/books/new" 
       class="list-group-item list-group-item-action" 
       active-class="active"
     >
-      書籍登録
+      <i class="bi bi-journal-plus me-2"></i>書籍登録
     </RouterLink>
   </div>
 </template>
