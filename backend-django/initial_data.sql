@@ -1,0 +1,10 @@
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (1, 'ゼロから始めるPython', '山田 太郎', 2800, '技術評論社', '/images/1.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (2, 'Vue.js 3入門', '鈴木 一郎', 3200, '翔泳社', '/images/2.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (3, 'Django Web開発', '田中 次郎', 3500, 'オライリー', '/images/3.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (4, 'TypeScript実践ガイド', '佐藤 花子', 3000, 'マイナビ出版', '/images/4.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (5, 'Reactマスター', '高橋 健太', 3400, '技術評論社', '/images/5.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (6, 'AWSクラウド', '伊藤 四郎', 3800, '翔泳社', '/images/6.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (7, 'Dockerコンテナ', '渡辺 五郎', 2900, 'オライリー', '/images/7.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (8, 'SQLデータベース', '小林 六郎', 2500, 'マイナビ出版', '/images/8.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (9, 'Gitバージョン管理', '加藤 七郎', 2200, '技術評論社', '/images/9.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (10, 'アジャイル開発', '吉田 チーム', 2600, '翔泳社', '/images/10.png');

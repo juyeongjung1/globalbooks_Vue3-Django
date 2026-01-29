@@ -47,7 +47,17 @@ Djangoプロジェクトは初期化済みですが、アプリケーション�
    python manage.py migrate
    ```
 
-5. **サーバー起動**
+5. **初期データの投入 (SQL)**
+   `backend-django` フォルダに `initial_data.sql` が用意されています。
+   SQLite3 コマンドラインツールなどでデータを投入してください。
+
+   **例 (sqlite3 コマンドが使える場合):**
+   ```bash
+   sqlite3 db.sqlite3 < initial_data.sql
+   ```
+   ※ VS Codeの拡張機能（SQLite Viewerなど）や、DB Browser for SQLite などのツールを使って `initial_data.sql` の中身（INSERT文）を実行しても構いません。
+
+6. **サーバー起動**
    ```bash
    python manage.py runserver 8001
    ```
