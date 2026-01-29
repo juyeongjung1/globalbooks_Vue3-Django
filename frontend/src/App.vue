@@ -7,14 +7,9 @@ import FooterInfo from './components/FooterInfo.vue'
 
 <template>
   <!-- 
-    【レイアウト構成】
-    ここはアプリケーション全体の基本レイアウトを定義しています。
-    - HeaderMenu: 画面上部の共通ヘッダー
-    - SideMenu: 左側の共通メニュー
-    - RouterView: URLに応じて切り替わるメインコンテンツ部分 (各Viewコンポーネントが表示されます)
-    - FooterInfo: 画面下部の共通フッター
-    
-    必要に応じてスタイルや構造を調整してください。
+    アプリケーション全体のレイアウト
+    ・ヘッダー、サイドメニュー、フッターの配置
+    ・RouterViewによるメインコンテンツの切り替え
    -->
   <div class="container-fluid bg-light min-vh-100 d-flex flex-column p-0">
     <!-- ヘッダーエリア -->
@@ -30,7 +25,6 @@ import FooterInfo from './components/FooterInfo.vue'
 
         <!-- メインコンテンツエリア -->
         <div class="col-md-9">
-          <!-- RouterView: ここに BookListView などが表示されます -->
           <RouterView />
         </div>
       </div>
@@ -42,5 +36,5 @@ import FooterInfo from './components/FooterInfo.vue'
 </template>
 
 <style scoped>
-/* 必要に応じて全体のスタイルを追加 */
+/* 全体のスタイル定義 */
 </style>
