@@ -15,14 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include # include を忘れずに追加してください
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from books.views import BookViewSet
 
 router = DefaultRouter()
-router.register(r'books', BookViewSet, basename='book') # /api/books のURLを作成
+# ここにAPIのルートを追加していきます
+# router.register(r'books', BookViewSet, basename='book')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)), # APIのルートを /api/ に設定
+    path('api/', include(router.urls)),
 ]
