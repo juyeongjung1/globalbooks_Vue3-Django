@@ -1,9 +1,13 @@
 <template>
   <div>
-    <!-- Implement Footer Info -->
+    <!-- 
+      【実装: フッター】
+      1. コピーライト表記などを配置してください。
+      2. 画面最下部に固定するか、コンテンツの最後に配置するかはレイアウト次第です。
+     -->
   </div>
 </template>
 
 <script setup lang="ts">
-// Implement logic here
+// フッターに関するロジック
 </script>

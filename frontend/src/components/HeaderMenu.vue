@@ -1,9 +1,14 @@
 <template>
   <div>
-    <!-- Implement Header Menu -->
+    <!-- 
+      【実装: ヘッダーメニュー】
+      1. システムのタイトルロゴ（テキストで可）を表示してください。
+      2. 必要に応じてナビゲーションリンクを配置してください。
+         例: 「ホーム」「書籍一覧」など
+     -->
   </div>
 </template>
 
 <script setup lang="ts">
-// Implement logic here
+// ヘッダーに関するロジックがあれば記述
 </script>

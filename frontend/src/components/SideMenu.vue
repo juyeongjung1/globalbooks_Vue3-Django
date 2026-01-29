@@ -1,9 +1,13 @@
 <template>
   <div>
-    <!-- Implement Side Menu -->
+    <!-- 
+      【実装: サイドメニュー】
+      1. 必要であればサイドバーによるナビゲーションを実装してください。
+      2. 特に要件がなければ、空のままでも構いませんし、主要ページへのショートカットを置くのも良いでしょう。
+     -->
   </div>
 </template>
 
 <script setup lang="ts">
-// Implement logic here
+// サイドメニューに関するロジック
 </script>
