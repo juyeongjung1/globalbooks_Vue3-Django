@@ -1,6 +1,0 @@
-@echo off
-echo Django API サーバーを起動します (非仮想環境)...
-echo ユーザー権限で依存ライブラリをチェック・インストールします...
-pip install --user -r requirements.txt
-python manage.py runserver 8001
-pause
