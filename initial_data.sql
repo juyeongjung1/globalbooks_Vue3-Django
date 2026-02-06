@@ -1,0 +1,14 @@
+DELETE FROM books;
+
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (1, 'Pythonの教科書', '山田 太郎', 2500, '技術書院', '/images/1.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (2, 'Vue.js入門', '山田 太郎', 3000, '技術評論社', '/images/2.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (3, 'Django開発', '佐藤 健一', 2800, '技術評論社', '/images/3.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (4, 'JavaScript完全', '山田 太郎', 3200, '技術評論社', '/images/4.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (5, 'AIの基礎', '田中 未来', 3500, '未来技術社', '/images/5.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (6, 'React実践', '伊藤 さくら', 3100, '技術評論社', '/images/6.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (7, 'Go言語', '渡辺 剛', 3400, '技術評論社', '/images/7.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (8, 'Docker活用', '山田 太郎', 2900, 'クラウド書房', '/images/8.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (9, 'AWS構築', '山田 太郎', 3800, 'インフラ技術社', '/images/9.png');
+INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (10, 'アジャイル', '吉田 チーム', 2600, 'J-TECH', '/images/10.png');
+
+SELECT * FROM books;
