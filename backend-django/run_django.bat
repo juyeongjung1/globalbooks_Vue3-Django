@@ -1,6 +1,11 @@
 @echo off
-echo Django API サーバーを起動します (非仮想環境)...
-echo ユーザー権限で依存ライブラリをチェック・インストールします...
-pip install --user -r requirements.txt
-python manage.py runserver 8001
+chcp 65001 >nul
+cd /d "%~dp0"
+if not exist "..\.venv\Scripts\python.exe" (
+    echo READMEに従って仮想環境とパッケージを準備してください。
+    pause
+    exit /b 1
+)
+echo Django API サーバーを起動します...
+"..\.venv\Scripts\python.exe" manage.py runserver 8001
 pause

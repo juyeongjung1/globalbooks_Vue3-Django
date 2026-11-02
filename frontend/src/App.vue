@@ -20,7 +20,7 @@ import FooterInfo from './components/FooterInfo.vue'
 
         <!-- メインコンテンツエリア -->
         <div class="col-md-9">
-          <!-- ここにURLに応じた画面（EmployeeListViewなど）が表示される -->
+          <!-- ここにURLに応じた書籍画面が表示される -->
           <RouterView />
         </div>
       </div>

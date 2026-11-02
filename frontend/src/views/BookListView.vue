@@ -9,32 +9,31 @@ type Book = {
   title: string
   author: string
   price: number
-  publisher: string
-  image_path: string
+  publisher: string | null
+  image_path: string | null
 }
 
 const books = ref<Book[]>([])
 const loading = ref(true)
 const error = ref<string | null>(null)
+const searchMessage = ref<string | null>(null)
 const keyword = ref('')
-
-// 画像のパスを解決する関数
-const getImagePath = (path: string) => {
-  if (!path) return '/images/no_image.png' // デフォルト画像（あれば）
-  if (path.startsWith('http')) return path
-  return path // publicフォルダ以下のパスを想定
-}
 
 // 検索・一覧取得関数
 const fetchBooks = async () => {
   loading.value = true
   error.value = null
+  searchMessage.value = null
   try {
-    const res = await axios.get('http://localhost:8001/api/books/', { // Port 8001 for Django
+    const res = await axios.get<Book[]>('http://localhost:8001/api/books/', {
       params: { keyword: keyword.value }
     })
     books.value = res.data
+    if (books.value.length === 0) {
+      searchMessage.value = '該当する書籍がありません。'
+    }
   } catch (err) {
+    console.error(err)
     error.value = '書籍情報の取得に失敗しました。'
   } finally {
     loading.value = false
@@ -62,6 +61,7 @@ onMounted(() => {
     <!-- ローディング・エラー表示 -->
     <div v-if="loading">読み込み中...</div>
     <div v-else-if="error" class="text-danger"><i class="bi bi-exclamation-triangle me-1"></i>{{ error }}</div>
+    <div v-else-if="searchMessage" class="text-muted">{{ searchMessage }}</div>
 
     <!-- 書籍一覧テーブル -->
     <table v-else class="table table-striped align-middle">
@@ -78,7 +78,8 @@ onMounted(() => {
       <tbody>
         <tr v-for="book in books" :key="book.id">
           <td>
-            <img :src="getImagePath(book.image_path)" alt="表紙" style="width: 50px; height: auto;">
+            <img v-if="book.image_path" :src="book.image_path" alt="表紙" style="width: 50px; height: auto;">
+            <span v-else class="text-muted small">画像なし</span>
           </td>
           <td>{{ book.id }}</td>
           <td>{{ book.title }}</td>

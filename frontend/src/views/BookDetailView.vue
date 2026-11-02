@@ -12,39 +12,42 @@ type Book = {
   title: string
   author: string
   price: number
-  publisher: string
-  image_path: string
+  publisher: string | null
+  image_path: string | null
 }
 
 const book = ref<Book | null>(null)
-
-// 画像パス解決
-const getImagePath = (path: string) => {
-  if (!path) return '/images/no_image.png'
-  if (path.startsWith('http')) return path
-  return path
-}
+const loading = ref(true)
+const error = ref<string | null>(null)
 
 // 詳細取得
 const fetchDetail = async () => {
   try {
-    const res = await axios.get(`http://localhost:8001/api/books/${id}/`)
+    const res = await axios.get<Book>(`http://localhost:8001/api/books/${id}/`)
     book.value = res.data
   } catch (err) {
-    alert('データ取得に失敗しました')
+    console.error(err)
+    error.value = '書籍データの取得に失敗しました。'
+  } finally {
+    loading.value = false
   }
 }
 
 // 削除処理
 const deleteBook = async () => {
-  if(!confirm('本当にこの書籍データを削除してもよろしいですか？')) return
+  const isConfirmed = confirm('本当にこの書籍データを削除してもよろしいですか？')
+  if (!isConfirmed) {
+    return
+  }
 
+  error.value = null
   try {
     await axios.delete(`http://localhost:8001/api/books/${id}/`)
     alert('削除しました')
     router.push('/books')
   } catch (err) {
-    alert('削除に失敗しました')
+    console.error(err)
+    error.value = '削除に失敗しました。'
   }
 }
 
@@ -54,13 +57,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container mt-4" v-if="book">
+  <div class="container mt-4">
     <h2>書籍詳細</h2>
-    <div class="card p-4">
+    <div v-if="loading">読み込み中...</div>
+    <div v-else-if="error" class="alert alert-danger" role="alert">{{ error }}</div>
+    <div v-else-if="book" class="card p-4">
       <div class="row">
         <!-- 左カラム: 画像 -->
         <div class="col-md-4 text-center">
-          <img :src="getImagePath(book.image_path)" alt="書籍表紙" class="img-fluid rounded shadow-sm" style="max-height: 400px;">
+          <img v-if="book.image_path" :src="book.image_path" alt="書籍表紙" class="img-fluid rounded shadow-sm" style="max-height: 400px;">
+          <span v-else class="text-muted">画像なし</span>
         </div>
 
         <!-- 右カラム: 書籍情報 -->
@@ -99,5 +105,6 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    <RouterLink v-if="!loading && error" to="/books" class="btn btn-secondary">一覧へ戻る</RouterLink>
   </div>
 </template>

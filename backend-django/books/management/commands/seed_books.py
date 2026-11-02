@@ -1,13 +1,13 @@
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from books.models import Book
 
 class Command(BaseCommand):
-    help = 'Seed database with initial book data'
+    help = '書籍が未登録の場合に初期データ10件を投入します'
 
     def handle(self, *args, **kwargs):
-        # 既存データのクリア
-        Book.objects.all().delete()
-        self.stdout.write('Cleared existing books.')
+        # 演習中に再実行しても、登録済みの書籍を消さない。
+        if Book.objects.exists():
+            raise CommandError('書籍が登録済みのため、初期データは投入しません。')
 
         # サンプルデータ作成
         books = [
@@ -26,4 +26,4 @@ class Command(BaseCommand):
         for book_data in books:
             Book.objects.create(**book_data)
         
-        self.stdout.write(self.style.SUCCESS(f'Successfully created {len(books)} books with starting ID 1.'))
+        self.stdout.write(self.style.SUCCESS(f'初期データを{len(books)}件登録しました。'))
