@@ -20,7 +20,7 @@ const error = ref<string | null>(null)
 // 既存データの取得
 const fetchBook = async () => {
   try {
-    const res = await axios.get(`http://localhost:8001/api/books/${id}/`)
+    const res = await axios.get(`http://localhost:8000/api/books/${id}/`)
     title.value = res.data.title
     author.value = res.data.author
     price.value = res.data.price
@@ -51,7 +51,7 @@ const updateBook = async () => {
       publisher: publisher.value,
       image_path: image_path.value
     }
-    await axios.put(`http://localhost:8001/api/books/${id}/`, updatedBook)
+    await axios.put(`http://localhost:8000/api/books/${id}/`, updatedBook)
     alert('更新しました')
     router.push(`/books/${id}`)
   } catch (err) {

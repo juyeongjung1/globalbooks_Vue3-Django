@@ -25,7 +25,7 @@ const fetchBooks = async () => {
   error.value = null
   searchMessage.value = null
   try {
-    const res = await axios.get<Book[]>('http://localhost:8001/api/books/', {
+    const res = await axios.get<Book[]>('http://localhost:8000/api/books/', {
       params: { keyword: keyword.value }
     })
     books.value = res.data

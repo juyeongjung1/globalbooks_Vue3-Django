@@ -29,7 +29,7 @@ const submitBook = async () => {
       publisher: publisher.value,
       image_path: image_path.value
     }
-    await axios.post('http://localhost:8001/api/books/', newBook)
+    await axios.post('http://localhost:8000/api/books/', newBook)
     alert('登録しました')
     router.push('/books')
   } catch (err) {

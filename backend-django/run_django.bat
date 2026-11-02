@@ -7,5 +7,5 @@ if not exist "..\.venv\Scripts\python.exe" (
     exit /b 1
 )
 echo Django API サーバーを起動します...
-"..\.venv\Scripts\python.exe" manage.py runserver 8001
+"..\.venv\Scripts\python.exe" manage.py runserver 8000
 pause

@@ -26,7 +26,7 @@ APIの成功時は `alert()`、削除確認は `confirm()` を使います。
 
 ## 前提条件
 
-- Python 3.12推奨（Django 5.2の対応範囲は3.10～3.14）
+- Python 3.13
 - Node.js 22.12以上の22系、または24系を推奨
 - Vite 7の最低要件はNode.js 20.19以上の20系、または22.12以上。Node.js 16・18は使用できません
 - Backend：Django 5.2系、Django REST Framework 3.16.1、django-cors-headers 4.9.0
@@ -98,12 +98,12 @@ Python標準のSQLite機能を使うため、sqlite3コマンドの別途イン�
 
 ```powershell
 ..\.venv\Scripts\python.exe manage.py check
-..\.venv\Scripts\python.exe manage.py runserver 8001
+..\.venv\Scripts\python.exe manage.py runserver 8000
 ```
 
-- `http://localhost:8001/api/books/`：書籍10件を確認
-- `http://localhost:8001/api/books/?keyword=Vue`：書籍名で絞り込み
-- `http://localhost:8001/api/books/1/`：1件の詳細を確認
+- `http://localhost:8000/api/books/`：書籍10件を確認
+- `http://localhost:8000/api/books/?keyword=Vue`：書籍名で絞り込み
+- `http://localhost:8000/api/books/1/`：1件の詳細を確認
 
 APIのURL末尾には `/` を付けます。API実装前の `/api/books/` は404で正常です。
 
@@ -141,7 +141,7 @@ npm run dev
 ### 2.3 入力・表示の注意点
 
 - 商品の `name` を書籍の `title` に読み替え、`author`、`publisher`、`image_path` を追加する。
-- APIは `http://localhost:8001/api/books/` を使う。参考用の3000番ポートではない。
+- APIは `http://localhost:8000/api/books/` を使う。参考用の3000番ポートではない。
 - 価格は登録・編集とも1以上の整数。`min="1"`、`step="1"` と送信前チェックを使う。
 - 書籍名・著者名は必須で、空白だけの入力も拒否する。文字列項目は最大255文字。
 - `public/images/1.png` の画像は `/images/1.png` と入力する。画像URLも利用できる。未指定の場合は `v-if` / `v-else` で「画像なし」と表示する。

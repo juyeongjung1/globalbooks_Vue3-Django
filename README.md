@@ -19,7 +19,7 @@ Vue 3とDjango REST Frameworkを使用した、総合演習の解答例です。
 
 ## 前提条件
 
-- Python 3.12推奨（Django 5.2の対応範囲は3.10～3.14）
+- Python 3.13
 - Node.js 22.12以上の22系、または24系を推奨
 - Vite 7の最低要件はNode.js 20.19以上の20系、または22.12以上。Node.js 16・18は対象外
 
@@ -47,10 +47,10 @@ python -m venv .venv
 APIサーバーを起動します。
 
 ```powershell
-.\.venv\Scripts\python.exe backend-django\manage.py runserver 8001
+.\.venv\Scripts\python.exe backend-django\manage.py runserver 8000
 ```
 
-APIの確認先：`http://localhost:8001/api/books/`
+APIの確認先：`http://localhost:8000/api/books/`
 
 ### フロントエンド
 
