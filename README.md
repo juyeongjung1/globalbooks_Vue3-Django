@@ -13,44 +13,47 @@ Vue 3とDjango REST Frameworkを使用した、総合演習の解答例です。
 ## 構成
 
 - `frontend/`：Vue 3 + TypeScript + Vite 7 + Bootstrap 5の解答
-- `backend-django/`：Django 5.2系 + Django REST Framework 3.16.1の解答
+- `backend-django/`：Django 5.2系 + Django REST Framework 3.16.1の解答。プロジェクト名は `config`、アプリ名は `books`
 - `docs/`：要件定義書・基本設計書（v1.1.0）
-- `globalbooks_Vue3-Django_starter/`：受講者用の未実装キット
+- `globalbooks_Vue3-Django_starter/`：受講者用の未実装キット。バックエンドはフォルダと初期SQLのみ
 
 ## 前提条件
 
-- Python 3.13
-- Node.js 22.12以上の22系、または24系を推奨
-- Vite 7の最低要件はNode.js 20.19以上の20系、または22.12以上。Node.js 16・18は対象外
+- Python 3.10以上（演習環境は3.13）
+- Node.js 20.19以上の20系、または22.12以上（Vite 7の必要条件）
+- SQLite3コマンドラインツール（初期SQLを投入する場合）
 
-## セットアップ（Windows / PowerShell）
+## セットアップ
 
 以下はこのREADMEのあるフォルダから実行します。
-仮想環境のPythonを直接指定するため、PowerShellの実行ポリシー変更は不要です。
+解答には `config` プロジェクトと `books` アプリが含まれています。
+受講者がプロジェクト作成から進める手順は、[スターターREADME](globalbooks_Vue3-Django_starter/README.md)を参照してください。
 
 ### バックエンド
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r backend-django\requirements.txt
-.\.venv\Scripts\python.exe backend-django\manage.py migrate
+cd backend-django
+python -m pip install -r requirements.txt
+python manage.py migrate
 ```
 
 同梱の `db.sqlite3` にはサンプル書籍が入っています。
-新しい空のDBを使用する場合だけ、次のコマンドで10件の初期データを投入します。
-書籍が登録済みの場合、コマンドは停止し、既存データを変更しません。
+新しい空のDBを使用する場合だけ、SQLite3コマンドラインツールで初期データを投入します。
+`.read` と `.quit` は、SQLiteのプロンプト内で入力します。投入後に10件のレコードが表示されます。
 
-```powershell
-.\.venv\Scripts\python.exe backend-django\manage.py seed_books
+```text
+sqlite3 db.sqlite3
+.read initial_data.sql
+.quit
 ```
 
 APIサーバーを起動します。
 
 ```powershell
-.\.venv\Scripts\python.exe backend-django\manage.py runserver 8000
+python manage.py runserver
 ```
 
-APIの確認先：`http://localhost:8000/api/books/`
+標準ポート8000で起動します。APIの確認先：`http://localhost:8000/api/books/`
 
 ### フロントエンド
 
@@ -58,23 +61,25 @@ APIの確認先：`http://localhost:8000/api/books/`
 
 ```powershell
 cd frontend
-npm ci
+npm install
 npm run dev
 ```
 
 アクセス先：`http://localhost:5173/books`。5173番ポートが使用中の場合は、先に使用中の開発サーバーを終了してください。
 
-macOS/Linuxでは `.venv/bin/python` を使用します。各コマンドのパス区切りをスラッシュに置き換えて実行してください。
-
 ## 検証
 
+バックエンドは `backend-django`、フロントエンドは `frontend` フォルダで、それぞれ実行します。
+
 ```powershell
-.\.venv\Scripts\python.exe backend-django\manage.py test books
-cd frontend
+python manage.py test books
+```
+
+```powershell
 npm run build
 ```
 
-テストではCRUD、検索、価格・必須項目・文字数、PUTとPATCHの違い、初期データ再投入時の既存データ保護を確認します。
+テストではCRUD、検索、価格・必須項目・文字数、PUTとPATCHの違い、既存の初期データコマンドの動作を確認します。
 
 ## 教材
 
@@ -84,6 +89,7 @@ npm run build
 - [受講者用セットアップ手順](globalbooks_Vue3-Django_starter/README.md)
 
 受講者へはスターターだけを配布します。リポジトリ全体には解答が含まれます。
-配布用ZIPは `python scripts/package_starter.py` で作成できます。Git履歴、仮想環境、依存パッケージ、生成物、DBは含めません。
+配布用ZIPは、このREADMEのあるフォルダで `python scripts/package_starter.py` を実行すると作成できます。
+Git履歴、仮想環境、依存パッケージ、生成物、DB、確認用の原本PDFは含めません。
 
 本教材はローカル環境での演習用です。

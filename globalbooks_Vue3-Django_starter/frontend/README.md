@@ -1,5 +1,19 @@
-# Vue 3 + TypeScript + Vite
+# 書籍管理システム - フロントエンド（スターター）
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Vue.js 3、TypeScript、Vite 7、Bootstrap 5を使用します。
+画面・コンポーネントの枠組みを用意しています。画面の案内とソースコード内のコメントに従って実装してください。
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+セットアップ全体は[プロジェクトのREADME](../README.md)を参照してください。
+Node.jsは20.19以上の20系、または22.12以上が必要です。
+
+このフォルダで実行します。
+
+```powershell
+npm install
+npm run dev
+```
+
+アクセス先：`http://localhost:5173`
+APIの接続先：`http://localhost:8000/api/books/`
+
+ビルドの確認は `npm run build` で行います。

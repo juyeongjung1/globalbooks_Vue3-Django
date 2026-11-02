@@ -1,159 +1,176 @@
-# 書籍管理システム - スターターキット
+# 書籍管理システム (Global Books Vue3-Django) - スターターキット
 
-Vue 3とDjango REST Frameworkで書籍管理システムを作る総合演習です。
-プロジェクト設定・画面ファイル・ルーター・表紙画像を用意しています。
-書籍のCRUD・検索、共通メニューなどの処理は、受講者が実装してください。
+これは、Vue.js 3とDjango REST Frameworkを使用して書籍管理システムを構築するためのスターターキットです。
+フロントエンドの基本的なプロジェクト構成や設定は完了していますが、主要な機能は未実装です。
+以下の手順に従って、開発を進めてください。
 
-## 使用する資料と書き方
+## 機能要件（実装目標）
 
-- [要件定義書 v1.1.0](docs/要件定義/要件定義書_v1.1.0.md)
-- [基本設計書 v1.1.0](docs/基本設計/基本設計書_v1.1.0.md)
-- [基本設計書PDF](docs/基本設計/基本設計書_v1.1.0.pdf)
-- 学習済みテキストの `ch05-crud` のソースコード
+- 書籍一覧表示（画像付き）
+- 書籍詳細表示
+- 新規書籍登録
+- 書籍編集
+- 書籍削除
 
-Vueはテキストと同じ `<script setup lang="ts">`、項目ごとの `ref`、`onMounted`、Axios、`try/catch`、Vue Routerを使用します。
-エラーメッセージは `error` に保持し、`v-if` で画面内に表示します。
-APIの成功時は `alert()`、削除確認は `confirm()` を使います。
+## 技術スタック
 
-テキストのExpressサーバーは、この演習ではDjango REST Frameworkに置き換えます。
+- Frontend：Vue.js 3、Vite 7、Bootstrap 5
+- Backend：Django 5、Django REST Framework
+- Database：SQLite3
 
-| Django側のファイル | 担当する処理 |
-| --- | --- |
-| `books/models.py` | 書籍テーブルの項目・型・テーブル名 |
-| `books/serializers.py` | JSONへの変換と入力値の検証 |
-| `books/views.py` | CRUDと書籍名の部分一致検索 |
-| `myproject/urls.py` | APIのURL登録 |
+## セットアップ & 開発手順
 
-## 前提条件
+### 前提条件
 
-- Python 3.13
-- Node.js 22.12以上の22系、または24系を推奨
-- Vite 7の最低要件はNode.js 20.19以上の20系、または22.12以上。Node.js 16・18は使用できません
-- Backend：Django 5.2系、Django REST Framework 3.16.1、django-cors-headers 4.9.0
-- DB：SQLite3
+- Python 3.10以上（演習環境は3.13）
+- Node.js 20.19以上の20系、または22.12以上（Vite 7の必要条件）
+- Django 5.2系、Django REST Framework 3.16.1、django-cors-headers 4.9.0をインストール済みであること
+- SQLite3コマンドラインツールをインストールし、`sqlite3` コマンドを実行できること
 
-以下はWindowsのPowerShell用です。仮想環境のPythonを直接実行するため、実行ポリシーの変更は不要です。
-macOS/Linuxでは `.venv/Scripts/python.exe` の代わりに `.venv/bin/python` を使い、パス区切りをスラッシュにしてください。
+### 1. バックエンド (Django) のセットアップ
 
-## 1. バックエンドの準備と実装
+バックエンド用の `backend-django` ディレクトリと、初期データ投入用の `initial_data.sql` だけを準備してあります。
+以下の手順に従い、プロジェクトの作成からセットアップを行ってください。
 
-### 1.1 仮想環境とパッケージ
+#### 1. ディレクトリ移動
 
 このREADMEのあるフォルダから実行します。
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r backend-django\requirements.txt
 cd backend-django
 ```
 
-以降、バックエンドのコマンドは `backend-django` フォルダで実行します。
+以降、バックエンドのコマンドはこのフォルダで実行します。
 
-### 1.2 booksアプリの作成・登録
+#### 2. Djangoプロジェクトの作成
 
-```powershell
-..\.venv\Scripts\python.exe manage.py startapp books
-```
-
-`myproject/settings.py` の `INSTALLED_APPS` に `'books'` を追加します。
-`rest_framework` と `corsheaders` は登録済みです。
-
-### 1.3 Bookモデルの実装
-
-基本設計書のテーブル定義に従って、`books/models.py` に `Book` モデルを実装します。
-タイトル・著者名・価格・出版社・画像パスを定義し、任意項目には `null=True, blank=True` を指定します。
-テーブル名を初期SQLと合わせるため、モデル内の `class Meta` に `db_table = 'books'` を指定してください。
-
-**モデルを実装した後**に、マイグレーションの作成・適用を行います。
+Djangoプロジェクト `config` を作成します。
 
 ```powershell
-..\.venv\Scripts\python.exe manage.py makemigrations books
-..\.venv\Scripts\python.exe manage.py migrate
+django-admin startproject config .
 ```
 
-`startapp` と `migrate` だけでは書籍テーブルは作成されません。
+#### 3. アプリケーションの作成
 
-### 1.4 初期データの投入
-
-書籍テーブルができてから、付属のスクリプトで `initial_data.sql` を実行します。
-Python標準のSQLite機能を使うため、sqlite3コマンドの別途インストールは不要です。
+書籍管理用のアプリ `books` を作成します。
 
 ```powershell
-..\.venv\Scripts\python.exe import_initial_data.py
+python manage.py startapp books
 ```
 
-初期書籍10件が登録されます。書籍が登録済みの場合は停止し、既存データは変更しません。
-`no such table: books` の場合は、モデル・`db_table`・マイグレーションを確認してください。
+#### 4. ディレクトリ構成 (Backend)
 
-### 1.5 APIの実装
-
-次の順序で実装します。
-
-1. `books/serializers.py` を作成し、`ModelSerializer` を継承する `BookSerializer` を定義する。対象モデルは `Book`、項目は全項目。`Meta.extra_kwargs` で価格の `min_value` を1に設定する。
-2. `books/views.py` で `ModelViewSet` を継承する `BookViewSet` を定義する。全書籍のQuerySetとSerializerを指定する。
-3. `get_queryset()` で `keyword` を受け取り、指定されている場合は `title__icontains` で絞り込む。未指定・空文字は全件取得する。
-4. `myproject/urls.py` で `BookViewSet` をインポートし、用意された `router.register` のコメントを外して登録する。
-
-### 1.6 APIの起動・確認
+以下のディレクトリ構成になっていることを確認してください。
+実行結果は一部省略しています。
 
 ```powershell
-..\.venv\Scripts\python.exe manage.py check
-..\.venv\Scripts\python.exe manage.py runserver 8000
+tree /f ./
 ```
 
-- `http://localhost:8000/api/books/`：書籍10件を確認
-- `http://localhost:8000/api/books/?keyword=Vue`：書籍名で絞り込み
-- `http://localhost:8000/api/books/1/`：1件の詳細を確認
+```text
+backend-django
+│  initial_data.sql
+│  manage.py
+│
+├─books
+│  │  models.py
+│  │  views.py
+│  │
+│  └─migrations
+│
+└─config
+   │  settings.py
+   └─ urls.py
+```
 
-APIのURL末尾には `/` を付けます。API実装前の `/api/books/` は404で正常です。
+#### 5. 設定の追加
 
-## 2. フロントエンドの準備と実装
+`config/settings.py` に必要な情報を追加してください。
 
-### 2.1 起動確認
+- `INSTALLED_APPS` に `'rest_framework'`（REST API用）、`'corsheaders'`（CORS用）、`'books'`（書籍管理アプリ）を追加する。
+- `MIDDLEWARE` の先頭に `'corsheaders.middleware.CorsMiddleware'` を追加する。
+- `CORS_ALLOWED_ORIGINS` を定義し、以下のオリジンを追加する。
+
+```python
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://localhost:5175',
+]
+```
+
+#### 6. モデルの作成
+
+設計書のテーブル定義を基にモデルを作成してください。以下に注意して作成します。
+
+- ID列は自動生成とし、フィールド定義は不要です。
+- nullableとはnullを許可する設定で、`null=True, blank=True` の設定で実現します。
+- テーブル名は `books` とします。モデル内の `class Meta` に `db_table = 'books'` を指定し、アプリケーション名が付かないようにしてください。Djangoのデフォルトは「アプリ名_モデル名」です。
+
+#### 7. データベースのマイグレーション
+
+モデルを実装した後に実行します。
+
+```powershell
+python manage.py makemigrations
+python manage.py migrate
+```
+
+#### 8. 初期データの投入 (SQL)
+
+`backend-django` フォルダに `initial_data.sql` が用意されています。
+書籍テーブルが空の状態で、SQLite3コマンドラインツールを使って初回だけ投入してください。
+SQLの末尾にあるSELECTにより、投入した10件のレコードが表示されます。
+
+```text
+sqlite3 db.sqlite3
+.read initial_data.sql
+.quit
+```
+
+`.read` と `.quit` は、`sqlite3 db.sqlite3` で開いたSQLiteのプロンプト内で入力します。
+
+#### 9. サーバー起動
+
+```powershell
+python manage.py runserver
+```
+
+Djangoの標準ポート8000で起動します。
+APIの実装は設計書に従い、`books/serializers.py`、`books/views.py`、`config/urls.py` に追加してください。
+実装後の確認先は `http://localhost:8000/api/books/` です。
+
+### 2. フロントエンド (Vue) のセットアップ
+
+フロントエンドは、必要な画面やコンポーネントのファイル（枠組み）のみ用意されています。
+
+#### 1. ディレクトリ移動とインストール
 
 別のターミナルを開き、このREADMEのあるフォルダから実行します。
 
 ```powershell
 cd frontend
-npm ci
+npm install
+```
+
+#### 2. 開発サーバー起動
+
+```powershell
 npm run dev
 ```
 
-`http://localhost:5173` を開き、「スターターキット」の案内が表示されれば起動成功です。
-5173番ポートが使用中の場合は、先に使用中の開発サーバーを終了してください。
-各ファイルの実装ヒントは画面ではなく、ソースコード内のコメントに記載しています。
+#### 3. ブラウザで確認
 
-### 2.2 実装の順序
+アクセス先：`http://localhost:5173`
 
-| 順序 | 実装対象 | 参考にするテキストのソース |
-| --- | --- | --- |
-| 1 | `HeaderMenu.vue`、`SideMenu.vue`、`FooterInfo.vue` | 同名の共通コンポーネント |
-| 2 | `BookListView.vue` の一覧取得 | `ProductListView.vue` |
-| 3 | `BookListView.vue` の検索・0件表示 | `ProductListView2.vue` |
-| 4 | `BookDetailView.vue` の詳細表示 | `ProductDetailView.vue` |
-| 5 | `NewBookView.vue` の登録 | `NewProductView.vue` |
-| 6 | `BookEditView.vue` の取得・更新 | `ProductEditView.vue` |
-| 7 | `BookDetailView.vue` の削除 | `ProductDetailView.vue` |
+画面の案内と各Vueファイル内のコメントに従って、実装を進めてください。
+一覧画面の初期案内は、書籍一覧を実装する際に置き換えます。
 
-`App.vue` とルーターは設定済みです。編集画面のURLは `/books/edit/:id` を使います。
-一覧の初期案内は、実装した一覧に置き換えてください。
+## 補足
 
-### 2.3 入力・表示の注意点
+APIの仕様や画面設計については、設計書を確認してください。
+実装時は、学習済みの参考用 `ch05-crud` の書き方に合わせます。
 
-- 商品の `name` を書籍の `title` に読み替え、`author`、`publisher`、`image_path` を追加する。
-- APIは `http://localhost:8000/api/books/` を使う。参考用の3000番ポートではない。
-- 価格は登録・編集とも1以上の整数。`min="1"`、`step="1"` と送信前チェックを使う。
-- 書籍名・著者名は必須で、空白だけの入力も拒否する。文字列項目は最大255文字。
-- `public/images/1.png` の画像は `/images/1.png` と入力する。画像URLも利用できる。未指定の場合は `v-if` / `v-else` で「画像なし」と表示する。
-- 編集のPUTではタイトル・著者名・価格を含む5項目を送信する。変更項目だけの更新はPATCHであり、本演習の画面では使用しない。
-- 登録後は一覧、更新後は詳細、削除後は一覧へ遷移する。キャンセルは新規登録では一覧、編集では詳細へ戻る。
-
-## 3. 完成時の確認
-
-- 一覧・検索・詳細・登録・編集・削除が動作する
-- 検索0件、画像未指定、取得中、通信エラーを表示できる
-- 価格0・負数・小数、必須項目未入力は保存できない
-- 削除確認でキャンセルした場合は削除しない
-- `npm run build` が成功する
-
-このキットは未実装の演習用です。解答コードやGit履歴は配布物に含めません。
+- [要件定義書](docs/要件定義/要件定義書_v1.1.0.md)
+- [基本設計書](docs/基本設計/基本設計書_v1.1.0.md)
+- [基本設計書PDF](docs/基本設計/基本設計書_v1.1.0.pdf)

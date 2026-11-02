@@ -8,3 +8,5 @@ INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (7, '
 INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (8, 'Docker活用', '山田 太郎', 2900, 'クラウド書房', '/images/8.png');
 INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (9, 'AWS構築', '山田 太郎', 3800, 'インフラ技術社', '/images/9.png');
 INSERT INTO books (id, title, author, price, publisher, image_path) VALUES (10, 'アジャイル', '吉田 チーム', 2600, 'J-TECH', '/images/10.png');
+
+SELECT * FROM books ORDER BY id;

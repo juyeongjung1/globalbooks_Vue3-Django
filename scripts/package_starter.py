@@ -15,7 +15,8 @@ with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
         dirs[:] = sorted(name for name in dirs if name not in excluded_dirs)
         for name in sorted(files):
             path = Path(folder) / name
-            if path.suffix in {'.pyc', '.pyo', '.sqlite3', '.db'}:
+            # 指示の原本PDFは手元に保持し、配布には更新済みREADMEを使う。
+            if name == 'README (1).pdf' or path.suffix in {'.pyc', '.pyo', '.sqlite3', '.db'}:
                 continue
             archive.write(path, Path(starter.name) / path.relative_to(starter))
 print(f'配布用ZIPを作成しました: {output}')
