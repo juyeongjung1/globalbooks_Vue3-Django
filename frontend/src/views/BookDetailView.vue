@@ -14,11 +14,14 @@ type Book = {
   price: number
   publisher: string | null
   image_path: string | null
+  like_count: number
 }
 
 const book = ref<Book | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
+const likeError = ref<string | null>(null)
+const liking = ref(false)
 
 // 詳細取得
 const fetchDetail = async () => {
@@ -30,6 +33,21 @@ const fetchDetail = async () => {
     error.value = '書籍データの取得に失敗しました。'
   } finally {
     loading.value = false
+  }
+}
+
+// オプション2: 戻ってきた書籍データで、保存済みの回数を表示する。
+const likeBook = async () => {
+  likeError.value = null
+  liking.value = true
+  try {
+    const res = await axios.post<Book>(`http://localhost:8000/api/books/${id}/like/`)
+    book.value = res.data
+  } catch (err) {
+    console.error(err)
+    likeError.value = 'いいねに失敗しました。'
+  } finally {
+    liking.value = false
   }
 }
 
@@ -97,6 +115,10 @@ onMounted(() => {
             </tbody>
           </table>
 
+          <div v-if="likeError" class="alert alert-danger" role="alert">{{ likeError }}</div>
+          <button type="button" class="btn btn-outline-danger" :disabled="liking" @click="likeBook">
+            ♥ いいね {{ book.like_count }}
+          </button>
           <div class="mt-4 d-flex gap-2">
             <RouterLink to="/books" class="btn btn-secondary"><i class="bi bi-arrow-left me-1"></i>一覧へ戻る</RouterLink>
             <RouterLink :to="`/books/edit/${book.id}`" class="btn btn-primary"><i class="bi bi-pencil-square me-1"></i>編集</RouterLink>

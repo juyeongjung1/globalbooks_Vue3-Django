@@ -6,6 +6,7 @@ class Book(models.Model):
     price = models.IntegerField()
     publisher = models.CharField(max_length=255, null=True, blank=True)
     image_path = models.CharField(max_length=255, null=True, blank=True)
+    like_count = models.PositiveIntegerField(default=0)
 
     class Meta:
         db_table = 'books'

@@ -10,6 +10,14 @@ Vue 3とDjango REST Frameworkを使用した、総合演習の解答例です。
 - 価格は1以上の整数。入力不備や通信エラーは画面内に表示
 - 表紙画像は任意。未指定の場合は「画像なし」と表示
 
+解答には、基本課題の完成後に選択して取り組む3つの[オプション機能](docs/追加課題/オプション機能.md)も含みます。
+
+- ID・価格・書籍名・いいね数の並び替え
+- 書籍ごとのいいね（何回でも追加可能）
+- JPEG・PNGの画像ファイル添付（5MB以下）
+
+`like_count` 列は初期状態から用意し、初期値は0です。画像はDjangoが `backend-django/media/books/` に保存し、URLを既存の `image_path` に保持します。画像用テーブル・列は追加しません。
+
 ## 構成
 
 - `frontend/`：Vue 3 + TypeScript + Vite 7 + Bootstrap 5の解答
@@ -36,6 +44,8 @@ cd backend-django
 python -m pip install -r requirements.txt
 python manage.py migrate
 ```
+
+既存環境もこの `migrate` でいいね数の列を追加できます。書籍データは保持されます。画像添付の検証に必要なPillowは `requirements.txt` に含まれています。
 
 同梱の `db.sqlite3` にはサンプル書籍が入っています。
 新しい空のDBを使用する場合だけ、SQLite3コマンドラインツールで初期データを投入します。
@@ -79,17 +89,18 @@ python manage.py test books
 npm run build
 ```
 
-テストではCRUD、検索、価格・必須項目・文字数、PUTとPATCHの違い、既存の初期データコマンドの動作を確認します。
+テストではCRUD、検索、入力検証、PUTとPATCH、初期データ、並び替え、いいね、画像アップロードの正常・異常入力を確認します。
 
 ## 教材
 
 - [要件定義書](docs/要件定義/要件定義書_v1.1.0.md)
 - [基本設計書](docs/基本設計/基本設計書_v1.1.0.md)
 - [基本設計書PDF](docs/基本設計/基本設計書_v1.1.0.pdf)
+- [オプション機能（任意課題）](docs/追加課題/オプション機能.md)
 - [受講者用セットアップ手順](globalbooks_Vue3-Django_starter/README.md)
 
 受講者へはスターターだけを配布します。リポジトリ全体には解答が含まれます。
 配布用ZIPは、このREADMEのあるフォルダで `python scripts/package_starter.py` を実行すると作成できます。
-Git履歴、仮想環境、依存パッケージ、生成物、DB、確認用の原本PDFは含めません。
+Git履歴、仮想環境、依存パッケージ、生成物、DB、アップロード画像、確認用の原本PDFは含めません。
 
 本教材はローカル環境での演習用です。

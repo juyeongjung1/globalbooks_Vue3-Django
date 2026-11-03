@@ -7,7 +7,7 @@ import os
 root = Path(__file__).resolve().parents[1]
 starter = root / 'globalbooks_Vue3-Django_starter'
 output = root / 'output' / 'globalbooks_starter_v1.1.0.zip'
-excluded_dirs = {'.git', '.venv', 'node_modules', 'dist', '__pycache__', '.vscode'}
+excluded_dirs = {'.git', '.venv', 'node_modules', 'dist', '__pycache__', '.vscode', 'media'}
 
 output.parent.mkdir(exist_ok=True)
 with ZipFile(output, 'w', ZIP_DEFLATED) as archive:

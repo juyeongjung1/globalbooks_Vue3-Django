@@ -11,6 +11,7 @@ type Book = {
   price: number
   publisher: string | null
   image_path: string | null
+  like_count: number
 }
 
 const books = ref<Book[]>([])
@@ -18,6 +19,18 @@ const loading = ref(true)
 const error = ref<string | null>(null)
 const searchMessage = ref<string | null>(null)
 const keyword = ref('')
+const ordering = ref('id')
+const actionError = ref<string | null>(null)
+const liking = ref(false)
+const sortButtons = [
+  { value: 'id', label: 'IDが小さい順' },
+  { value: '-id', label: 'IDが大きい順' },
+  { value: 'price', label: '価格が安い順' },
+  { value: '-price', label: '価格が高い順' },
+  { value: 'title', label: '書籍名の昇順' },
+  { value: '-title', label: '書籍名の降順' },
+  { value: '-like_count', label: 'いいねが多い順' }
+]
 
 // 検索・一覧取得関数
 const fetchBooks = async () => {
@@ -26,7 +39,7 @@ const fetchBooks = async () => {
   searchMessage.value = null
   try {
     const res = await axios.get<Book[]>('http://localhost:8000/api/books/', {
-      params: { keyword: keyword.value }
+      params: { keyword: keyword.value, ordering: ordering.value }
     })
     books.value = res.data
     if (books.value.length === 0) {
@@ -37,6 +50,27 @@ const fetchBooks = async () => {
     error.value = '書籍情報の取得に失敗しました。'
   } finally {
     loading.value = false
+  }
+}
+
+// オプション1: 選択した順序で、現在の検索結果を取得する。
+const changeOrder = (value: string) => {
+  ordering.value = value
+  fetchBooks()
+}
+
+// オプション2: 成功したら一覧を取得し直し、回数と並び順を更新する。
+const likeBook = async (id: number) => {
+  actionError.value = null
+  liking.value = true
+  try {
+    await axios.post(`http://localhost:8000/api/books/${id}/like/`)
+    await fetchBooks()
+  } catch (err) {
+    console.error(err)
+    actionError.value = 'いいねに失敗しました。'
+  } finally {
+    liking.value = false
   }
 }
 
@@ -58,6 +92,18 @@ onMounted(() => {
       <RouterLink to="/books/new" class="btn btn-success"><i class="bi bi-plus-lg me-1"></i>新規登録</RouterLink>
     </div>
 
+    <div class="mb-3">
+      <p class="mb-2">並び替え</p>
+      <div class="d-flex flex-wrap gap-2">
+        <button v-for="sort in sortButtons" :key="sort.value" type="button"
+          class="btn btn-sm" :class="ordering === sort.value ? 'btn-primary' : 'btn-outline-primary'"
+          :aria-pressed="ordering === sort.value" :disabled="loading || liking" @click="changeOrder(sort.value)">
+          {{ sort.label }}
+        </button>
+      </div>
+    </div>
+    <div v-if="actionError" class="alert alert-danger" role="alert">{{ actionError }}</div>
+
     <!-- ローディング・エラー表示 -->
     <div v-if="loading">読み込み中...</div>
     <div v-else-if="error" class="text-danger"><i class="bi bi-exclamation-triangle me-1"></i>{{ error }}</div>
@@ -72,6 +118,7 @@ onMounted(() => {
           <th>書籍名</th>
           <th>著者名</th>
           <th>価格</th>
+          <th>いいね</th>
           <th>アクション</th>
         </tr>
       </thead>
@@ -85,6 +132,10 @@ onMounted(() => {
           <td>{{ book.title }}</td>
           <td>{{ book.author }}</td>
           <td>{{ book.price.toLocaleString() }} 円</td>
+          <td>
+            <button type="button" class="btn btn-sm btn-outline-danger" :disabled="liking"
+              :aria-label="'いいね: ' + book.title" @click="likeBook(book.id)">♥ {{ book.like_count }}</button>
+          </td>
           <td>
             <RouterLink :to="`/books/${book.id}`" class="btn btn-sm btn-info text-white">
               <i class="bi bi-info-circle me-1"></i>詳細
