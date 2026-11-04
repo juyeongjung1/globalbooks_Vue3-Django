@@ -1,5 +1,7 @@
 # 書籍管理システム (Global Books Vue3-Django)
 
+[読みやすいPDF版を開く](README.pdf)（このMarkdownは更新用の原稿です）
+
 Vue 3とDjango REST Frameworkを使用した、総合演習の解答例です。
 学習済みテキストの `ref`、`onMounted`、Axios、Vue Routerを使った書き方に合わせています。
 
@@ -10,7 +12,7 @@ Vue 3とDjango REST Frameworkを使用した、総合演習の解答例です。
 - 価格は1以上の整数。入力不備や通信エラーは画面内に表示
 - 表紙画像は任意。未指定の場合は「画像なし」と表示
 
-解答には、[基本設計書の第7章「追加機能」](docs/基本設計/基本設計書_v1.1.0.md#7-追加機能)で扱う3つの任意課題も含みます。基本課題の完成後に選択して取り組みます。
+解答には、[基本設計書の第7章「追加機能」](docs/基本設計/基本設計書_v1.1.0.pdf#page=10)で扱う3つの任意課題も含みます。基本課題の完成後に選択して取り組みます。
 
 - ID・価格・書籍名・いいね数の並び替え
 - 書籍ごとのいいね（何回でも追加可能）
@@ -35,7 +37,7 @@ Vue 3とDjango REST Frameworkを使用した、総合演習の解答例です。
 
 以下はこのREADMEのあるフォルダから実行します。
 解答には `config` プロジェクトと `books` アプリが含まれています。
-受講者がプロジェクト作成から進める手順は、[スターターREADME](globalbooks_Vue3-Django_starter/README.md)を参照してください。
+受講者がプロジェクト作成から進める手順は、[スターターREADME（PDF）](globalbooks_Vue3-Django_starter/README.pdf)を参照してください。
 
 ### バックエンド
 
@@ -89,18 +91,18 @@ python manage.py test books
 npm run build
 ```
 
-テストではCRUD、検索、入力検証、PUTとPATCH、初期データ、並び替え、いいね、画像アップロードの正常・異常入力を確認します。
+テストではCRUD、検索、入力検証、PUTとPATCH、並び替え、いいね、画像アップロードの正常・異常入力を確認します。
 
 ## 教材
 
 - [要件定義書](docs/要件定義/要件定義書_v1.1.0.md)
-- [基本設計書](docs/基本設計/基本設計書_v1.1.0.md)
-- [基本設計書PDF](docs/基本設計/基本設計書_v1.1.0.pdf)
-- [追加機能（基本設計書 第7章・任意課題）](docs/基本設計/基本設計書_v1.1.0.md#7-追加機能)
-- [受講者用セットアップ手順](globalbooks_Vue3-Django_starter/README.md)
+- [基本設計書（PDF）](docs/基本設計/基本設計書_v1.1.0.pdf)
+- [基本設計書（編集用Markdown）](docs/基本設計/基本設計書_v1.1.0.md)
+- [追加機能（基本設計書 第7章・任意課題）](docs/基本設計/基本設計書_v1.1.0.pdf#page=10)
+- [受講者用セットアップ手順（PDF）](globalbooks_Vue3-Django_starter/README.pdf)
 
 受講者へはスターターだけを配布します。リポジトリ全体には解答が含まれます。
 配布用ZIPは、このREADMEのあるフォルダで `python scripts/package_starter.py` を実行すると作成できます。
-Git履歴、仮想環境、依存パッケージ、生成物、DB、アップロード画像、確認用の原本PDFは含めません。
+Git履歴、仮想環境、依存パッケージ、ビルド生成物、DB、アップロード画像、確認用の原本PDFは含めません。
 
 本教材はローカル環境での演習用です。

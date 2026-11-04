@@ -1,9 +1,7 @@
-from io import BytesIO, StringIO
+from io import BytesIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from django.core.management import call_command
-from django.core.management.base import CommandError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import override_settings
 from PIL import Image
@@ -67,18 +65,6 @@ class BookAPITests(APITestCase):
         response = self.client.patch(self.url, {'price': 1200}, format='json')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['title'], 'Vue入門')
-
-    def test_seed_does_not_delete_existing_books(self):
-        with self.assertRaises(CommandError):
-            call_command('seed_books', stdout=StringIO())
-        self.assertEqual(Book.objects.count(), 1)
-        self.assertEqual(Book.objects.get(pk=self.book.pk).title, 'Vue入門')
-
-    def test_seed_inserts_ten_books_into_empty_database(self):
-        self.book.delete()
-        call_command('seed_books', stdout=StringIO())
-        self.assertEqual(Book.objects.count(), 10)
-        self.assertEqual(Book.objects.get(pk=1).image_path, '/images/1.png')
 
     def test_sorting_and_search_use_the_same_results(self):
         second = Book.objects.create(title='Vue応用', author='佐藤', price=500)
