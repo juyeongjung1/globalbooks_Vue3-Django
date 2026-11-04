@@ -18,8 +18,8 @@ with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
             # 設計資料は、図を埋め込んだPDFだけを配布する。
             if path.is_relative_to(starter / 'docs') and path.suffix.lower() != '.pdf':
                 continue
-            # 指示の原本PDFは手元に保持し、配布には更新済みREADMEを使う。
-            if name == 'README (1).pdf' or path.suffix in {'.pyc', '.pyo', '.sqlite3', '.db'}:
+            # 原本・控えのPDFは手元に保持し、配布には更新済みREADMEを使う。
+            if name in {'README (1).pdf', 'README - コピー.pdf'} or path.suffix in {'.pyc', '.pyo', '.sqlite3', '.db'}:
                 continue
             archive.write(path, Path(starter.name) / path.relative_to(starter))
 print(f'配布用ZIPを作成しました: {output}')
