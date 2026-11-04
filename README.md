@@ -16,7 +16,7 @@ Vue 3とDjango REST Frameworkを使用した、総合演習の解答例です。
 - 書籍ごとのいいね（何回でも追加可能）
 - JPEG・PNGの画像ファイル添付（5MB以下）
 
-`like_count` 列は初期状態から用意し、初期値は0です。画像はDjangoが `backend-django/media/books/` に保存し、URLを既存の `image_path` に保持します。画像用テーブル・列は追加しません。
+`like_count` は追加機能専用の列です。基本機能では使用せず、後から列を追加する作業を避けるため初期状態から0で用意します。画像はDjangoが `backend-django/media/books/` に保存し、URLを既存の `image_path` に保持します。画像用テーブル・列は追加しません。
 
 ## 構成
 
