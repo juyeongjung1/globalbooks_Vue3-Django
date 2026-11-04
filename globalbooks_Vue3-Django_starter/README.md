@@ -153,6 +153,8 @@ python -m pip install "Django>=5.2.10,<5.3" "djangorestframework==3.16.1" "djang
 バックエンド用のDjangoディレクトリと、DB作成用SQLだけ準備してあります。
 以下の手順に従いセットアップを行ってください。
 
+**手順5・6では、ファイルの編集・保存が必要です。コマンドの実行だけでは書籍テーブルは作成されません。**
+
 1. **ディレクトリ移動**
 
    このREADMEのあるフォルダから実行します。
@@ -204,9 +206,9 @@ python -m pip install "Django>=5.2.10,<5.3" "djangorestframework==3.16.1" "djang
 
 5. **設定の追加**
 
-   `config/settings.py` に必要な情報を追加してください。
+   `config/settings.py` を開き、次の設定を追加して `Ctrl+S` で保存します。
 
-   - `INSTALLED_APPS` にアプリを追加
+   - 既存の `INSTALLED_APPS = [` から対応する `]` の内側に、次の3つを追加します。最初からあるアプリは残します。
 
      ```python
      'rest_framework',  # 追加: REST API用
@@ -232,40 +234,93 @@ python -m pip install "Django>=5.2.10,<5.3" "djangorestframework==3.16.1" "djang
 
 6. **モデルの作成**
 
-   テーブル定義を基にモデルを作成してください。以下に注意して作成します。
+   VS Codeのエクスプローラーで `backend-django` → `books` → `models.py` を開きます。`startapp books` が作るファイルは雛形で、`Book` モデルは自動生成されません。
 
-   - ID列は自動生成とし、フィールド定義は不要です。
-   - nullableとはNullを許可する設定で、`null=True, blank=True` の設定で実現します。
-   - テーブル名は `books` とします。アプリケーション名がつかないように注意してください。モデル内の `class Meta` に `db_table = 'books'` を指定します。（Djangoのデフォルトは「アプリ名_モデル名」で生成）
-
-   **追記（追加機能用の列）：** `Book` モデル内に、次の1行も追加してください。後から列を追加する作業を避けるため、最初から用意します。基本機能では使わず、初期値0のまま保持します。
+   **この時点の `books/models.py` の内容を、次のコード全文に置き換えて `Ctrl+S` で保存してください。** これはファイルに記述するPythonコードで、ターミナルへ入力するコマンドではありません。
 
    ```python
-   like_count = models.PositiveIntegerField(default=0)
+   from django.db import models
+
+   class Book(models.Model):
+       title = models.CharField(max_length=255)
+       author = models.CharField(max_length=255)
+       price = models.IntegerField()
+       publisher = models.CharField(max_length=255, null=True, blank=True)
+       image_path = models.CharField(max_length=255, null=True, blank=True)
+       # 追加機能専用（いいね・いいね数順）。基本機能では使わず、列だけ先に用意する。
+       like_count = models.PositiveIntegerField(default=0)
+
+       class Meta:
+           db_table = 'books'
+
+       def __str__(self):
+           return self.title
    ```
+
+   基本設計書の「2.1 テーブル定義: books」に対応するモデルです。インデントも含めてコピーしてください。
+
+   | 設定 | 意味 |
+   | --- | --- |
+   | id | Djangoが自動生成するため、コードへの追加は不要 |
+   | null=True, blank=True | 出版社・画像パスは未入力を許可 |
+   | db_table = 'books' | 初期SQLと同じテーブル名に指定 |
+   | like_count | 追加機能専用。基本機能では使わず、初期値0で列だけ先に用意 |
 
 7. **データベースのマイグレーション**
 
-   モデルを作成した後に実行します。
+   手順5・6の編集内容を保存してから、`backend-django` のPowerShellで1行ずつ実行します。エラーが出た場合は、修正してから次へ進みます。
 
    ```powershell
-   python manage.py makemigrations
+   python manage.py makemigrations books
    python manage.py migrate
+   python manage.py showmigrations books
    ```
+
+   初回は `books/migrations/0001_initial.py` が作成され、`migrate` で `Applying books.0001_initial... OK` と表示されます。最後に次の表示を確認してから、初期データの投入へ進みます。
+
+   ```text
+   books
+    [X] 0001_initial
+   ```
+
+   | 表示された内容 | 確認・対応 |
+   | --- | --- |
+   | No installed app with label 'books' | 手順5に戻り、INSTALLED_APPSの内側にbooksを追加して保存 |
+   | 初回なのにNo changes detected／(no migrations) | 手順6に戻り、books/models.pyのBookモデルを実装して保存 |
+   | [ ] 0001_initial | まだ未適用。migrateを実行して[X]になることを確認 |
+
+   すでに `[X] 0001_initial` となっていてモデルに変更がなければ、再実行時の `No changes detected` は正常です。`admin`・`auth` などのマイグレーションだけでは、書籍テーブルは作成されません。
 
 8. **初期データの投入 (SQL)**
 
    `backend-django` フォルダに `initial_data.sql` が用意されています。
-   SQLite3コマンドラインツールでデータを投入してください。
-   データ投入後、テーブルのレコードが表示されるため、確認してください。
+   このSQLはデータの登録用です。テーブルの作成は手順7で行います。
+
+   **PowerShell（PS ...>）で入力：**
+
+   ```powershell
+   sqlite3 db.sqlite3
+   ```
+
+   **SQLite（sqlite>）に切り替わったら、まず入力：**
 
    ```text
-   sqlite3 db.sqlite3
+   .tables
+   ```
+
+   一覧に `books` があることを確認します。なければ `.quit` で終了し、手順5〜7を確認してください。既存の `db.sqlite3` を削除する必要はありません。
+
+   **booksが存在し、まだ書籍を登録していない場合だけ、SQLiteで入力：**
+
+   ```text
    .read initial_data.sql
+   SELECT COUNT(*) FROM books;
    .quit
    ```
 
-   **追記：** 空の書籍テーブルに初回だけ投入します。`.read` と `.quit` はSQLiteのプロンプト内で実行し、10件の表示を確認してください。
+   書籍10件が表示され、件数が `10` になれば完了です。同じ初期データを再投入しないでください。
+
+   `.read`・`.tables`・`.quit` は、行頭のドットも含めて入力します。ドットなしの `read` や `quit` を入力して `...>` になった場合は、`Ctrl+C` で中断します。`sqlite>` に戻ったら `.quit` で終了します（`PS ...>` に戻った場合は終了済みです）。
 
 9. **サーバー起動**
 
