@@ -114,6 +114,29 @@ class BookAPITests(APITestCase):
         self.assertEqual(response.data[0]['id'], self.book.id)
         self.assertEqual(self.client.post('/api/books/999999/like/').status_code, 404)
 
+    def test_sort_ties_and_empty_or_invalid_ordering(self):
+        second = Book.objects.create(title='Vue入門', author='佐藤', price=1000)
+        expected = [self.book.id, second.id]
+        for ordering in ['price', '-price', 'title', '-title', '-like_count', '', 'author', 'price,-id']:
+            with self.subTest(ordering=ordering):
+                response = self.client.get('/api/books/', {'ordering': ordering})
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual([row['id'] for row in response.data], expected)
+        response = self.client.get('/api/books/', {'keyword': '該当なし', 'ordering': '-price'})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, [])
+
+    def test_like_ignores_client_count_and_survives_put(self):
+        self.assertEqual(self.client.get(self.url + 'like/').status_code, 405)
+        response = self.client.post(self.url + 'like/', {'like_count': 999}, format='json')
+        self.assertEqual(response.data['like_count'], 1)
+        response = self.client.put(self.url, {
+            'title': '改訂版', 'author': '山田', 'price': 1000,
+            'publisher': '', 'image_path': '', 'like_count': 999,
+        }, format='json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['like_count'], 1)
+
     def test_image_upload_and_book_registration(self):
         with TemporaryDirectory() as folder, override_settings(MEDIA_ROOT=folder):
             for image_format, content_type in [('PNG', 'image/png'), ('PNG', 'image/png'), ('JPEG', 'image/jpeg')]:
@@ -146,4 +169,21 @@ class BookAPITests(APITestCase):
                     self.assertEqual(self.client.post('/api/books/upload-image/', {'image': upload}, format='multipart').status_code, 400)
             self.assertEqual(self.client.post('/api/books/upload-image/', {}, format='multipart').status_code, 400)
             self.assertEqual(list(Path(folder).rglob('*')), [])
+            self.assertEqual(Book.objects.count(), 1)
+
+    def test_upload_size_boundary_and_actual_image_format(self):
+        with TemporaryDirectory() as folder, override_settings(MEDIA_ROOT=folder):
+            content = BytesIO()
+            Image.new('RGB', (4, 4), 'blue').save(content, format='PNG')
+            # 5MBちょうどと1バイト超過を比較する。拡張子より実際の画像形式を優先する。
+            data = content.getvalue().ljust(5 * 1024 * 1024, b'0')
+            upload = SimpleUploadedFile('cover.jpg', data, content_type='image/jpeg')
+            response = self.client.post('/api/books/upload-image/', {'image': upload}, format='multipart')
+            self.assertEqual(response.status_code, 201)
+            self.assertTrue(response.data['image_path'].endswith('.png'))
+            upload = SimpleUploadedFile('large.png', data + b'0', content_type='image/png')
+            self.assertEqual(self.client.post('/api/books/upload-image/', {'image': upload}, format='multipart').status_code, 400)
+            self.assertEqual(self.client.post('/api/books/upload-image/', {'image': 'fake'}, format='json').status_code, 415)
+            self.assertEqual(self.client.get('/api/books/upload-image/').status_code, 405)
+            self.assertEqual(len(list(Path(folder).rglob('*.*'))), 1)
             self.assertEqual(Book.objects.count(), 1)
