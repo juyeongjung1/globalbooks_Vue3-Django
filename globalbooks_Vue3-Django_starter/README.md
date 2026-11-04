@@ -206,8 +206,4 @@ python -m pip install "Django>=5.2.10,<5.3" "djangorestframework==3.16.1" "djang
 python -m pip install "Pillow>=11.1,<13"
 ```
 
-各機能の手順と画面例は、[基本設計書 第7章「追加機能」](docs/基本設計/基本設計書_v1.1.0.pdf#page=10)にまとめています。
-
-- [要件定義書](docs/要件定義/要件定義書_v1.1.0.md)
-- [基本設計書（PDF）](docs/基本設計/基本設計書_v1.1.0.pdf)
-- [基本設計書（編集用Markdown）](docs/基本設計/基本設計書_v1.1.0.md)
+画面例は同梱の基本設計書の第7章「追加機能」を確認してください。

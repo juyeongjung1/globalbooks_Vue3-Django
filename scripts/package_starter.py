@@ -15,6 +15,9 @@ with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
         dirs[:] = sorted(name for name in dirs if name not in excluded_dirs)
         for name in sorted(files):
             path = Path(folder) / name
+            # 設計資料は、図を埋め込んだPDFだけを配布する。
+            if path.is_relative_to(starter / 'docs') and path.suffix.lower() != '.pdf':
+                continue
             # 指示の原本PDFは手元に保持し、配布には更新済みREADMEを使う。
             if name == 'README (1).pdf' or path.suffix in {'.pyc', '.pyo', '.sqlite3', '.db'}:
                 continue
